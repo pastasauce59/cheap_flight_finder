@@ -2,6 +2,7 @@ import requests
 from keys import *
 from flight_data import FlightData
 
+
 TEQUILA_ENDPOINT = "https://api.tequila.kiwi.com"
 
 class FlightSearch:
@@ -33,3 +34,7 @@ class FlightSearch:
             "curr": "USD",
             "max_stopovers": 0
         }
+
+        response = requests.get(url=f"{TEQUILA_ENDPOINT}/v2/search", params=tequila_config, headers=headers)
+        data = response.json()
+        print(data)

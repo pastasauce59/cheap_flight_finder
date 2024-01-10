@@ -4,14 +4,14 @@ from datetime import datetime, timedelta
 
 data_manager = DataManager()
 sheet_data = data_manager.get_destination_data()
-# print(sheet_data[0])
+# print(len(sheet_data))
 
-if sheet_data[0]["iataCode"] == "":
-    from flight_search import FlightSearch
-    flight_search = FlightSearch()
-    for row in sheet_data:
-        row["iataCode"] = flight_search.get_destination_code(row["city"])
-    # print(f"Sheet Data: \n {sheet_data}" )
+for i in range(0, len(sheet_data)):
+    if sheet_data[i]["iataCode"] == "":
+        from flight_search import FlightSearch
+        flight_search = FlightSearch()
+        sheet_data[i]["iataCode"] = flight_search.get_destination_code(sheet_data[i]["city"])
+        # print(f"Sheet Data: \n {sheet_data}" )
         
 data_manager.destination_data = sheet_data
 data_manager.update_destination_codes()
@@ -30,3 +30,4 @@ for city in sheet_data:
         tomorrow,
         six_mons_from_now
     )
+

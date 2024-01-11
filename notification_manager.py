@@ -12,4 +12,4 @@ class NotificationManager:
             to = VERIFIED_NUM
         )
 
-        print(message.sid)
+        print(message.status)

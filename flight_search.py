@@ -39,8 +39,13 @@ class FlightSearch:
         try:
             data = response.json()["data"][0]
         except IndexError:
-            print(f"No flights found for {destination_city_code}")
-            return None
+            print(f"No non-stop flights found for {destination_city_code}. Trying search with connnecting flight...")
+
+            tequila_config2 = {
+                "max_stopovers": 2 
+            }
+
+            response = requests.get(url=f"{TEQUILA_ENDPOINT}/v2/search", params=tequila_config2, headers=headers)
         # print(data)
 
         flight_data = FlightData(
@@ -50,7 +55,9 @@ class FlightSearch:
             destination_city = data["route"][0]["cityTo"],
             destination_airport = data["route"][0]["flyTo"],
             depart_date = data["route"][0]["local_departure"].split("T")[0],
-            return_date = data["route"][1]["local_departure"].split("T")[0]
+            return_date = data["route"][1]["local_departure"].split("T")[0],
+            stop_overs = 1,
+            via_city = data["route"][0]
         )
         print(f"{flight_data.destination_city}: ${flight_data.price}")
         return flight_data

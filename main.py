@@ -7,7 +7,7 @@ data_manager = DataManager()
 sheet_data = data_manager.get_destination_data()
 flight_search = FlightSearch()
 notification_manager = NotificationManager()
-# print(len(sheet_data))
+# print(sheet_data)
 
 for i in range(0, len(sheet_data)):
     if sheet_data[i]["iataCode"] == "":
@@ -33,7 +33,11 @@ for city in sheet_data:
         six_mons_from_now
     )
 
-    if flight.price < city["lowestPrice"]:
-        notification_manager.send_message(message=
-        f"Only ${flight.price} to fly from {flight.origin_city}-{flight.origin_airport} to {flight.destination_city}-{flight.destination_airport} from {flight.depart_date} to {flight.return_date}!")
+    if flight.price < city["lowestPrice"] and flight.stop_overs > 0:
+        message = f"Only ${flight.price} to fly from {flight.origin_city}-{flight.origin_airport} to {flight.destination_city}-{flight.destination_airport} from {flight.depart_date} to {flight.return_date}!"
+        
+        if flight.price < city["lowestPrice"]:
+            message += f"\nFlight has {flight.stop_overs} stop over, via {flight.via_city}."
+            print(message)
 
+    # notification_manager.send_message(message)

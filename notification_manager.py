@@ -15,7 +15,7 @@ class NotificationManager:
 
         print(message.status)
 
-    def send_email(self, emails, message):
+    def send_emails(self, emails, message):
         with smtplib.SMTP(MAIL_PROVIDER_SMTP_ADDRESS) as connection:
             connection.starttls()
             connection.login(user=MY_EMAIL, password=MY_PASSWORD)

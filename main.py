@@ -33,11 +33,14 @@ for city in sheet_data:
         six_mons_from_now
     )
 
-    if flight.price < city["lowestPrice"] and flight.stop_overs > 0:
-        message = f"Only ${flight.price} to fly from {flight.origin_city}-{flight.origin_airport} to {flight.destination_city}-{flight.destination_airport} from {flight.depart_date} to {flight.return_date}!"
-        
-        if flight.price < city["lowestPrice"]:
-            message += f"\nFlight has {flight.stop_overs} stop over, via {flight.via_city}."
-            print(message)
+    if flight.price < city["lowestPirce"]:
 
-    # notification_manager.send_message(message)
+        users = data_manager.get_customer_emails()
+        emails = [row["email"] for row in users]
+
+        message = f"Only ${flight.price} to fly from {flight.origin_city}-{flight.origin_airport} to {flight.destination_city}-{flight.destination_airport} from {flight.depart_date} to {flight.return_date}!"
+
+        if flight.stop_overs > 0:
+            message += f"\nFlight has {flight.stop_overs} stop over, via {flight.via_city}."
+
+        notification_manager.send_emails(emails, message)

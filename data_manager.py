@@ -12,7 +12,7 @@ class DataManager:
         self.destination_data = {}
 
     def get_destination_data(self):
-        response = requests.get(url=SHEETY_ENDPOINT, headers=sheety_headers)
+        response = requests.get(url=SHEETY_PRICES_ENDPOINT, headers=sheety_headers)
         data = response.json()
         self.destination_data = data["prices"]
         return self.destination_data
@@ -24,6 +24,11 @@ class DataManager:
                     "iataCode": city["iataCode"]
                 }
             }
-            response = requests.put(url=f"{SHEETY_ENDPOINT}/{city['id']}", headers=sheety_headers, json=new_data)
+            response = requests.put(url=f"{SHEETY_PRICES_ENDPOINT}/{city['id']}", headers=sheety_headers, json=new_data)
             # print(response.text)
 
+    def get_customer_emails(self):
+        response = requests.get(url=SHEETY_USERS_ENDPOINT, headers=sheety_headers)
+        data = response.json()
+        self.customer_data = data
+        return self.customer_data["users"]
